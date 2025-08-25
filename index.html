@@ -151,7 +151,7 @@
         <h2>Cadastro de Cliente</h2>
         <label for="user">Nome Completo</label>
         <input type="text" id="user" />
-        <label for="idade">Número do usuário</label>
+        <label for="idade">Número do Cliente</label>
         <input type="text" id="idade" />
         <div class="grupo-botoes">
           <input type="button" id="adicionar" value="Adicionar Cliente" />
@@ -173,7 +173,7 @@
         </select>
         <label for="data">Data e Horário</label>
         <input type="datetime-local" id="data" />
-        <label for="textarea">Motivo do Agendamento</label>
+        <label for="textarea">Nome do cliente</label>
         <textarea id="textarea"></textarea>
         <button id="btn">Confirmar Agendamento</button>
         <div id="resultado"></div>
@@ -181,7 +181,7 @@
 
       <section id="cortes-feitos" class="secao-formulario" style="display: none;">
         <h2>Cadastro de Cortes</h2>
-        <label for="nome-corte">Nome</label>
+        <label for="nome-corte">Cliente</label>
         <input type="text" id="nome-corte" />
         <label for="tipo-corte">Nome do corte</label>
         <input type="text" id="tipo-corte" />
@@ -312,12 +312,24 @@
       if (motivo && servico && horarioAgendado) {
         const dataFormatada = new Date(horarioAgendado).toLocaleString('pt-BR');
         mensagem.innerHTML = `
-          <div style="border: 2px solid #4CAF50; border-radius: 10px; padding: 15px; background-color: #f0fff0; font-family: Arial, sans-serif;">
-            <h3 style="color: #2e7d32; margin-top: 0;">✅ Agendamento confirmado!</h3>
-            <p><strong>📍 Serviço:</strong> ${servico}</p>
-            <p><strong>📅 Data e horário:</strong> ${dataFormatada}</p>
-            <p><strong>📝 Cliente:</strong> ${motivo}</p>
-          </div>
+ <div style="
+  border: 2px solid #c19a6b;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #3a3a3a;
+  font-family: 'Poppins', sans-serif;
+  color: #e0e0e0;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  max-width: 400px;
+  margin: auto;
+  animation: fadeIn 0.5s ease-in-out;
+">
+  <h3 style="color: #c19a6b; margin-top: 0;">✅ Agendamento confirmado!</h3>
+  <p><strong style="color: #c19a6b;">📍 Serviço:</strong> ${servico}</p>
+  <p><strong style="color: #c19a6b;">📅 Data e horário:</strong> ${dataFormatada}</p>
+  <p><strong style="color: #c19a6b;">📝 Cliente:</strong> ${motivo}</p>
+</div>
+
         `;
         resultado.appendChild(mensagem);
         agendarAlerta(horarioAgendado, servico, motivo);
