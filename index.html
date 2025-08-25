@@ -1,36 +1,374 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="style.css">
-    <title>Programa</title>
-
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maninho Barbearia</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #2b2b2b;
+      color: #e0e0e0;
+      padding: 1rem;
+      font-size: 0.75rem;
+    }
+    .sidebar {
+      width: 180px;
+      height: 100vh;
+      background: #3a3a3a;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 20px;
+      border-right: 2px solid #c19a6b;
+      box-shadow: 2px 0 6px rgba(0,0,0,0.2);
+    }
+    .sidebar ul { list-style: none; }
+    .sidebar li { margin-bottom: 12px; }
+    .sidebar a {
+      display: block;
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      font-size: 0.7rem;
+      transition: 0.3s;
+    }
+    .sidebar a:hover {
+      background: #a67c52;
+      color: #fff;
+      border-radius: 4px;
+    }
+    .conteudo-principal {
+      margin-left: 190px;
+      padding: 1rem;
+    }
+    .container-principal {
+      background: #3a3a3a;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      max-width: 680px;
+      margin: auto;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .titulo-barbearia {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: #c49a6c;
+      text-shadow: 1px 1px 2px #000;
+      text-align: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #3a3a3a, #4f4f4f);
+      padding: 10px;
+      border-radius: 6px;
+    }
+    label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+      display: block;
+      color: #d0d0d0;
+    }
+    input, select, textarea {
+      width: 100%;
+      min-height: 30px;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.7rem;
+      border: 1px solid #444;
+      border-radius: 4px;
+      background: #3f3f3f;
+      color: #e0e0e0;
+      transition: 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #c19a6b;
+      box-shadow: 0 0 0 2px rgba(193,154,107,0.2);
+      outline: none;
+    }
+    input[type="button"], button {
+      padding: 0.4rem 0.6rem;
+      background: #c19a6b;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    input[type="button"]:hover, button:hover {
+      background: #a67c52;
+    }
+    .campo-formulario { margin-bottom: 0.8rem; display: flex; flex-direction: column; }
+    .grupo-botoes { display: flex; gap: 0.6rem; margin-top: 1rem; }
+    #listaUsuarios li, #listaCortes li {
+      background: #515151;
+      padding: 0.6rem;
+      margin-bottom: 0.5rem;
+      border-left: 3px solid #c19a6b;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .rodape {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.65rem;
+      color: #aaa;
+    }
+  </style>
 </head>
-<header>
-<h1> CALCULANDO A SUA IDADE</h1>
-
-</header>
 <body>
-    <script src="programa.js"></script>
-<section>
-    <div>
-      
-    <p> DIGITE SUA DATA DE NASC: <input type="number" name="idade1" id="idade1"><br><br></p>
-      
-       
-    </div>
-    <div id="resultado"><strong>Sua idade é:</strong></div>
-     <input type="button" value="calcular" onclick="idade()">
-    </div>
-</section>
-    <footer>
-   <p> © feito por<br><strong>Yuri Oliveira</strong></p>
+  <nav class="sidebar">
+    <ul>
+      <li><a href="#/">🏠 Início</a></li>
+      <li><a href="#/clientes">👤 Clientes</a></li>
+      <li><a href="#/agendamento">📅 Agendamentos</a></li>
+      <li><a href="#/cortes-feitos">✂️ Cortes feitos</a></li>
+    </ul>
+  </nav>
 
-    </footer>
- 
-    
-</body>
-</html>
+  <div class="conteudo-principal">
+    <main class="container-principal">
+      <h1 class="titulo-barbearia">Maninho Barbearia</h1>
+
+      <section id="pagina-inicial" class="secao-formulario">
+        <h2>Bem-vindo à Maninho Barbearia</h2>
+        <p>Use o menu à esquerda para navegar entre as seções.</p>
+      </section>
+
+      <section id="clientes" class="secao-formulario" style="display: none;">
+        <h2>Cadastro de Cliente</h2>
+        <label for="user">Nome Completo</label>
+        <input type="text" id="user" />
+        <label for="idade">Número do usuário</label>
+        <input type="text" id="idade" />
+        <div class="grupo-botoes">
+          <input type="button" id="adicionar" value="Adicionar Cliente" />
+          <input type="button" id="remover" value="Remover Último Cliente" />
+        </div>
+        <ul id="listaUsuarios"></ul>
+      </section>
+
+      <section id="agendamento" class="secao-formulario" style="display: none;">
+        <h2>Agendamento de Corte</h2>
+        <label for="servico">Selecione o corte</label>
+        <select id="servico">
+          <option value="">-- Selecione o corte --</option>
+          <option value="Não Precisa">Não Precisa</option>
+          <option value="Cabelo">Cabelo</option>
+          <option value="Barba">Barba</option>
+          <option value="Cabelo e Barba">Cabelo e Barba</option>
+          <option value="Sombrancelha">Sombrancelha</option>
+        </select>
+        <label for="data">Data e Horário</label>
+        <input type="datetime-local" id="data" />
+        <label for="textarea">Motivo do Agendamento</label>
+        <textarea id="textarea"></textarea>
+        <button id="btn">Confirmar Agendamento</button>
+        <div id="resultado"></div>
+      </section>
+
+      <section id="cortes-feitos" class="secao-formulario" style="display: none;">
+        <h2>Cadastro de Cortes</h2>
+        <label for="nome-corte">Nome</label>
+        <input type="text" id="nome-corte" />
+        <label for="tipo-corte">Nome do corte</label>
+        <input type="text" id="tipo-corte" />
+        <label for="preco-corte">Preço do corte</label>
+        <input type="text" id="preco-corte" />
+        <div class="grupo-botoes">
+          <input type="button" id="adicionar-corte" value="Adicionar Corte" />
+          <input type="button" id="remover-corte" value="Remover Último Corte" />
+        </div>
+        <ul id="listaCortes"></ul>
+      </section>
+         <footer class="rodape">
+        <p>Todos os direitos reservados &copy; 2023 - Maninho Barbearia</p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Popup de alerta -->
+  <div id="sobreposicao-popup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index:999;">
+    <div style="background:#fff; padding:20px; border-radius:10px; max-width:300px; text-align:center; color:#333;">
+      <div id="popup-msg"></div>
+      <button onclick="fecharPopup()" style="margin-top:10px;">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const btnInput = document.querySelector('#btn');
+    const resultado = document.querySelector('#resultado');
+    const dataInput = document.querySelector('#data');
+    const servicoInput = document.querySelector('#servico');
+    const textInput = document.querySelector('#textarea');
+
+    const addUserInput = document.querySelector('#user');
+    const addIdadeInput = document.querySelector('#idade');
+    const btnAdd = document.querySelector('#adicionar');
+    const btnRemover = document.querySelector('#remover');
+    const listaUsuarios = document.getElementById('listaUsuarios');
+    const userFk = [];
+
+    function adicionarUsuario() {
+      const nome = addUserInput.value.trim();
+      const idade = addIdadeInput.value.trim();
+
+      if (nome === '' || idade === '') {
+        const li = document.createElement('li');
+        li.textContent = '⚠️ Preencha todos os campos!';
+        li.style.color = 'red';
+        li.style.fontWeight = 'bold';
+        li.style.margin = '5px 0';
+        listaUsuarios.appendChild(li);
+        return;
+      }
+
+      if (!userFk.includes(nome)) {
+        userFk.push(nome);
+        const li = document.createElement('li');
+        li.textContent = `👤 ${nome} — ${idade}`;
+        listaUsuarios.appendChild(li);
+      } else {
+        alert('Usuário já adicionado!');
+      }
+
+      addUserInput.value = '';
+      addIdadeInput.value = '';
+    }
+
+    function removerUltimoUsuario() {
+      if (listaUsuarios.lastChild) {
+        const nomeRemovido = listaUsuarios.lastChild.textContent.split(' — ')[0].replace('👤 ', '');
+        userFk.splice(userFk.indexOf(nomeRemovido), 1);
+        listaUsuarios.removeChild(listaUsuarios.lastChild);
+      }
+    }
+
+    function addCorte(nomeCorte, tipoCorte, precoCorte) {
+      const listaCortes = document.querySelector('#listaCortes');
+      if (!nomeCorte || !tipoCorte || !precoCorte) {
+        const li = document.createElement('li');
+        li.textContent = '⚠️ Preencha todos os campos do corte!';
+        li.style.color = 'red';
+        li.style.fontWeight = 'bold';
+        li.style.margin = '5px 0';
+        listaCortes.appendChild(li);
+        return;
+      }
+
+      const li = document.createElement('li');
+      li.textContent = `✂️ ${nomeCorte} - ${tipoCorte} - R$${precoCorte}`;
+      listaCortes.appendChild(li);
+    }
+
+    function removerUltimoCorte() {
+      const lista = document.querySelector('#listaCortes');
+      if (lista.lastChild) lista.removeChild(lista.lastChild);
+    }
+
+    function fecharPopup() {
+      document.getElementById('sobreposicao-popup').style.display = 'none';
+    }
+
+    function agendarAlerta(horarioAgendado, servico, motivo) {
+      const agora = new Date();
+      const horario = new Date(horarioAgendado);
+      const tempoRestante = horario.getTime() - agora.getTime();
+
+      if (tempoRestante > 0) {
+        setTimeout(() => {
+          const popupOverlay = document.getElementById('sobreposicao-popup');
+          const popupMsg = document.getElementById('popup-msg');
+          popupMsg.innerHTML = `
+            📍 <strong>Serviço:</strong> ${servico}<br>
+            📝 <strong>Motivo:</strong> ${motivo}
+          `;
+          popupOverlay.style.display = 'flex';
+        }, tempoRestante);
+      }
+    }
+
+    btnInput.addEventListener('click', function () {
+      const horarioAgendado = dataInput.value;
+      const servico = servicoInput.value;
+      const motivo = textInput.value;
+      resultado.innerHTML = '';
+
+      const mensagem = document.createElement('p');
+
+      if (motivo && servico && horarioAgendado) {
+        const dataFormatada = new Date(horarioAgendado).toLocaleString('pt-BR');
+        mensagem.innerHTML = `
+          <div style="border: 2px solid #4CAF50; border-radius: 10px; padding: 15px; background-color: #f0fff0; font-family: Arial, sans-serif;">
+            <h3 style="color: #2e7d32; margin-top: 0;">✅ Agendamento confirmado!</h3>
+            <p><strong>📍 Serviço:</strong> ${servico}</p>
+            <p><strong>📅 Data e horário:</strong> ${dataFormatada}</p>
+            <p><strong>📝 Cliente:</strong> ${motivo}</p>
+          </div>
+        `;
+        resultado.appendChild(mensagem);
+        agendarAlerta(horarioAgendado, servico, motivo);
+      } else {
+        mensagem.textContent = '⚠️ Por favor, preencha todos os campos.';
+        mensagem.style.color = 'red';
+        resultado.appendChild(mensagem);
+      }
+    });
+
+    btnAdd.addEventListener('click', adicionarUsuario);
+    btnRemover.addEventListener('click', removerUltimoUsuario);
+
+    document.querySelector('#adicionar-corte').addEventListener('click', function () {
+      const nome = document.querySelector('#nome-corte').value;
+      const tipo = document.querySelector('#tipo-corte').value;
+      const preco = document.querySelector('#preco-corte').value;
+      addCorte(nome, tipo, preco);
+    });
+
+    document.querySelector('#remover-corte').addEventListener('click', removerUltimoCorte);
+
+    function renderSeção() {
+      const hash = window.location.hash || "#/";
+      const secoes = {
+        "#/": "pagina-inicial",
+        "#/clientes": "clientes",
+        "#/agendamento": "agendamento",
+        "#/cortes-feitos": "cortes-feitos"
+      };
+
+      document.querySelectorAll(".secao-formulario").forEach(secao => {
+        secao.style.display = "none";
+      });
+
+      const id = secoes[hash];
+      if (id) {
+        document.getElementById(id).style.display = "block";
+      } else {
+        const paginaInicial = document.getElementById("pagina-inicial");
+        paginaInicial.innerHTML = "<h2>❌ Página não encontrada</h2>";
+        paginaInicial.style.display = "block";
+      }
+    }
+
+    window.addEventListener("hashchange", renderSeção);
+    window.addEventListener("DOMContentLoaded", renderSeção);
+  </script>
+
+
+
+
+
+
