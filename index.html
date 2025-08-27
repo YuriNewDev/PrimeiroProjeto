@@ -127,14 +127,22 @@
       color: #aaa;
     }
   </style>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Maninho Barbearia</title>
+  <link rel="stylesheet" href="estilos.css"> <!-- Se você tiver um CSS externo -->
 </head>
 <body>
+
   <nav class="sidebar">
     <ul>
       <li><a href="#/">🏠 Início</a></li>
       <li><a href="#/clientes">👤 Clientes</a></li>
       <li><a href="#/agendamento">📅 Agendamentos</a></li>
       <li><a href="#/cortes-feitos">✂️ Cortes feitos</a></li>
+      <li><a href="#/caixa">💰 Caixa</a></li>
     </ul>
   </nav>
 
@@ -143,8 +151,15 @@
       <h1 class="titulo-barbearia">Maninho Barbearia</h1>
 
       <section id="pagina-inicial" class="secao-formulario">
-        <h2>Bem-vindo à Maninho Barbearia</h2>
+        <h2>Bem-vindo ao PAINEL ADMINISTRATIVO do Maninho Barbearia</h2>
         <p>Use o menu à esquerda para navegar entre as seções.</p>
+
+        <span>Se quiseres, pode adicionar um lembrete</span>
+        <h3>📌 Adicionar Lembrete</h3>
+        <label for="txt">Lembrete</label>
+        <input type="text" id="txt" />
+        <button id="btnlembrete">Adicionar</button>
+        <ul id="listaLembretes"></ul>
       </section>
 
       <section id="clientes" class="secao-formulario" style="display: none;">
@@ -179,6 +194,44 @@
         <div id="resultado"></div>
       </section>
 
+      <!-- caixa -->
+      <section id="caixa" class="secao-formulario" style="display: none;">
+        <h2>💰 Finanças</h2>
+        <p>Aqui estão os cortes realizados e seus respectivos valores:</p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+          <thead style="background-color: #f2f2f2;">
+            <tr>
+              <th style="border: 1px solid #ccc; padding: 10px;">Cliente</th>
+              <th style="border: 1px solid #ccc; padding: 10px;">Tipo de Corte</th>
+              <th style="border: 1px solid #ccc; padding: 10px;">Preço</th>
+              <th style="border: 1px solid #ccc; padding: 10px;">Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="border: 1px solid #ccc; padding: 10px;">João Silva</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">Cabelo</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">R$ 30,00</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">26/08/2025</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ccc; padding: 10px;">Maria Souza</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">Barba</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">R$ 20,00</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">26/08/2025</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ccc; padding: 10px;">Carlos Lima</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">Cabelo e Barba</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">R$ 45,00</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">27/08/2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- cortes feitos -->
       <section id="cortes-feitos" class="secao-formulario" style="display: none;">
         <h2>Cadastro de Cortes</h2>
         <label for="nome-corte">Cliente</label>
@@ -193,7 +246,8 @@
         </div>
         <ul id="listaCortes"></ul>
       </section>
-         <footer class="rodape">
+
+      <footer class="rodape">
         <p>Todos os direitos reservados &copy; 2023 - Maninho Barbearia</p>
       </footer>
     </main>
@@ -207,177 +261,230 @@
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script>
-    const btnInput = document.querySelector('#btn');
-    const resultado = document.querySelector('#resultado');
-    const dataInput = document.querySelector('#data');
-    const servicoInput = document.querySelector('#servico');
-    const textInput = document.querySelector('#textarea');
+</body>
+</html>
 
-    const addUserInput = document.querySelector('#user');
-    const addIdadeInput = document.querySelector('#idade');
-    const btnAdd = document.querySelector('#adicionar');
-    const btnRemover = document.querySelector('#remover');
-    const listaUsuarios = document.getElementById('listaUsuarios');
-    const userFk = [];
 
-    function adicionarUsuario() {
-      const nome = addUserInput.value.trim();
-      const idade = addIdadeInput.value.trim();
+<script>
+  // Elementos de agendamento
+  const btnInput = document.querySelector('#btn');
+  const resultado = document.querySelector('#resultado');
+  const dataInput = document.querySelector('#data');
+  const servicoInput = document.querySelector('#servico');
+  const textInput = document.querySelector('#textarea');
 
-      if (nome === '' || idade === '') {
-        const li = document.createElement('li');
-        li.textContent = '⚠️ Preencha todos os campos!';
-        li.style.color = 'red';
-        li.style.fontWeight = 'bold';
-        li.style.margin = '5px 0';
-        listaUsuarios.appendChild(li);
-        return;
-      }
+  // Elementos de cliente
+  const addUserInput = document.querySelector('#user');
+  const addIdadeInput = document.querySelector('#idade');
+  const btnAdd = document.querySelector('#adicionar');
+  const btnRemover = document.querySelector('#remover');
+  const listaUsuarios = document.getElementById('listaUsuarios');
 
-      if (!userFk.includes(nome)) {
-        userFk.push(nome);
-        const li = document.createElement('li');
-        li.textContent = `👤 ${nome} — ${idade}`;
-        listaUsuarios.appendChild(li);
-      } else {
-        alert('Usuário já adicionado!');
-      }
+  // Elementos de lembrete
+  const lembreteInput = document.querySelector('#txt');
+  const btnInputL = document.querySelector('#btnlembrete');
+  const listaLembretes = document.querySelector('#listaLembretes');
 
-      addUserInput.value = '';
-      addIdadeInput.value = '';
+  // Lista de clientes únicos
+  const userFk = [];
+
+  // Função para criar avisos
+  function criarAviso(texto) {
+    const li = document.createElement('li');
+    li.textContent = texto;
+    li.style.color = 'red';
+    li.style.fontWeight = 'bold';
+    li.style.margin = '5px 0';
+    return li;
+  }
+
+  // Lembretes
+  btnInputL.addEventListener('click', function () {
+    const post = lembreteInput.value.trim();
+    if (post === '') {
+      listaLembretes.appendChild(criarAviso('⚠️ Adicione um lembrete!'));
+      return;
+    }
+    const li = document.createElement('li');
+    li.textContent = post;
+    listaLembretes.appendChild(li);
+    lembreteInput.value = '';
+  });
+
+  // Adicionar cliente
+  function adicionarUsuario() {
+    const nome = addUserInput.value.trim();
+    const idade = addIdadeInput.value.trim();
+
+    if (nome === '' || idade === '') {
+      listaUsuarios.appendChild(criarAviso('⚠️ Preencha todos os campos!'));
+      return;
     }
 
-    function removerUltimoUsuario() {
-      if (listaUsuarios.lastChild) {
-        const nomeRemovido = listaUsuarios.lastChild.textContent.split(' — ')[0].replace('👤 ', '');
-        userFk.splice(userFk.indexOf(nomeRemovido), 1);
-        listaUsuarios.removeChild(listaUsuarios.lastChild);
-      }
-    }
-
-    function addCorte(nomeCorte, tipoCorte, precoCorte) {
-      const listaCortes = document.querySelector('#listaCortes');
-      if (!nomeCorte || !tipoCorte || !precoCorte) {
-        const li = document.createElement('li');
-        li.textContent = '⚠️ Preencha todos os campos do corte!';
-        li.style.color = 'red';
-        li.style.fontWeight = 'bold';
-        li.style.margin = '5px 0';
-        listaCortes.appendChild(li);
-        return;
-      }
-
+    if (!userFk.includes(nome)) {
+      userFk.push(nome);
       const li = document.createElement('li');
-      li.textContent = `✂️ ${nomeCorte} - ${tipoCorte} - R$${precoCorte}`;
-      listaCortes.appendChild(li);
+      li.textContent = `👤 ${nome} — ${idade}`;
+      listaUsuarios.appendChild(li);
+    } else {
+      alert('Usuário já adicionado!');
     }
 
-    function removerUltimoCorte() {
-      const lista = document.querySelector('#listaCortes');
-      if (lista.lastChild) lista.removeChild(lista.lastChild);
+    addUserInput.value = '';
+    addIdadeInput.value = '';
+  }
+
+  // Remover cliente
+  function removerUltimoUsuario() {
+    if (listaUsuarios.lastChild) {
+      const nomeRemovido = listaUsuarios.lastChild.textContent.split(' — ')[0].replace('👤 ', '');
+      userFk.splice(userFk.indexOf(nomeRemovido), 1);
+      listaUsuarios.removeChild(listaUsuarios.lastChild);
+    }
+  }
+
+  // Adicionar corte
+  function addCorte(nomeCorte, tipoCorte, precoCorte) {
+    const listaCortes = document.querySelector('#listaCortes');
+    if (!nomeCorte || !tipoCorte || !precoCorte) {
+      listaCortes.appendChild(criarAviso('⚠️ Preencha todos os campos do corte!'));
+      return;
     }
 
-    function fecharPopup() {
-      document.getElementById('sobreposicao-popup').style.display = 'none';
-    }
+    const li = document.createElement('li');
+    li.textContent = `✂️ ${nomeCorte} - ${tipoCorte} - R$${precoCorte}`;
+    listaCortes.appendChild(li);
+  }
 
-    function agendarAlerta(horarioAgendado, servico, motivo) {
-      const agora = new Date();
-      const horario = new Date(horarioAgendado);
-      const tempoRestante = horario.getTime() - agora.getTime();
+  // Remover corte
+  function removerUltimoCorte() {
+    const lista = document.querySelector('#listaCortes');
+    if (lista.lastChild) lista.removeChild(lista.lastChild);
+  }
 
-      if (tempoRestante > 0) {
-        setTimeout(() => {
-          const popupOverlay = document.getElementById('sobreposicao-popup');
-          const popupMsg = document.getElementById('popup-msg');
-          popupMsg.innerHTML = `
-            📍 <strong>Serviço:</strong> ${servico}<br>
-            📝 <strong>Motivo:</strong> ${motivo}
-          `;
-          popupOverlay.style.display = 'flex';
-        }, tempoRestante);
-      }
-    }
+  // Fechar popup
+  function fecharPopup() {
+    document.getElementById('sobreposicao-popup').style.display = 'none';
+  }
 
-    btnInput.addEventListener('click', function () {
-      const horarioAgendado = dataInput.value;
-      const servico = servicoInput.value;
-      const motivo = textInput.value;
-      resultado.innerHTML = '';
+  // Agendamento com alerta
+  function agendarAlerta(horarioAgendado, servico, motivo) {
+    const agora = new Date();
+    const horario = new Date(horarioAgendado);
+    const tempoRestante = horario.getTime() - agora.getTime();
 
-      const mensagem = document.createElement('p');
-
-      if (motivo && servico && horarioAgendado) {
-        const dataFormatada = new Date(horarioAgendado).toLocaleString('pt-BR');
-        mensagem.innerHTML = `
- <div style="
-  border: 2px solid #c19a6b;
-  border-radius: 10px;
-  padding: 15px;
-  background-color: #3a3a3a;
-  font-family: 'Poppins', sans-serif;
-  color: #e0e0e0;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-  max-width: 400px;
-  margin: auto;
-  animation: fadeIn 0.5s ease-in-out;
-">
-  <h3 style="color: #c19a6b; margin-top: 0;">✅ Agendamento confirmado!</h3>
-  <p><strong style="color: #c19a6b;">📍 Serviço:</strong> ${servico}</p>
-  <p><strong style="color: #c19a6b;">📅 Data e horário:</strong> ${dataFormatada}</p>
-  <p><strong style="color: #c19a6b;">📝 Cliente:</strong> ${motivo}</p>
-</div>
-
+    if (tempoRestante > 0) {
+      setTimeout(() => {
+        const popupOverlay = document.getElementById('sobreposicao-popup');
+        const popupMsg = document.getElementById('popup-msg');
+        popupMsg.innerHTML = `
+          📍 <strong>Serviço:</strong> ${servico}<br>
+          📝 <strong>Motivo:</strong> ${motivo}
         `;
-        resultado.appendChild(mensagem);
-        agendarAlerta(horarioAgendado, servico, motivo);
-      } else {
-        mensagem.textContent = '⚠️ Por favor, preencha todos os campos.';
-        mensagem.style.color = 'red';
-        resultado.appendChild(mensagem);
-      }
-    });
+        popupOverlay.style.display = 'flex';
+      }, tempoRestante);
+    }
+  }
 
-    btnAdd.addEventListener('click', adicionarUsuario);
-    btnRemover.addEventListener('click', removerUltimoUsuario);
+  // Confirmar agendamento
+  btnInput.addEventListener('click', function () {
+    const horarioAgendado = dataInput.value;
+    const servico = servicoInput.value;
+    const motivo = textInput.value;
+    resultado.innerHTML = '';
 
-    document.querySelector('#adicionar-corte').addEventListener('click', function () {
-      const nome = document.querySelector('#nome-corte').value;
-      const tipo = document.querySelector('#tipo-corte').value;
-      const preco = document.querySelector('#preco-corte').value;
-      addCorte(nome, tipo, preco);
-    });
+    const mensagem = document.createElement('p');
 
-    document.querySelector('#remover-corte').addEventListener('click', removerUltimoCorte);
-
-    function renderSeção() {
-      const hash = window.location.hash || "#/";
-      const secoes = {
-        "#/": "pagina-inicial",
-        "#/clientes": "clientes",
-        "#/agendamento": "agendamento",
-        "#/cortes-feitos": "cortes-feitos"
-      };
-
-      document.querySelectorAll(".secao-formulario").forEach(secao => {
-        secao.style.display = "none";
-      });
-
-      const id = secoes[hash];
-      if (id) {
-        document.getElementById(id).style.display = "block";
-      } else {
-        const paginaInicial = document.getElementById("pagina-inicial");
-        paginaInicial.innerHTML = "<h2>❌ Página não encontrada</h2>";
-        paginaInicial.style.display = "block";
-      }
+    if (!horarioAgendado || !servico || !motivo) {
+      resultado.appendChild(criarAviso('⚠️ Por favor, preencha todos os campos.'));
+      return;
     }
 
-    window.addEventListener("hashchange", renderSeção);
-    window.addEventListener("DOMContentLoaded", renderSeção);
-  </script>
+    if (new Date(horarioAgendado) < new Date()) {
+      resultado.appendChild(criarAviso('⚠️ Escolha um horário futuro.'));
+      return;
+    }
+
+    const dataFormatada = new Date(horarioAgendado).toLocaleString('pt-BR');
+    mensagem.innerHTML = `
+      <div style="
+        border: 2px solid #c19a6b;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: #3a3a3a;
+        font-family: 'Poppins', sans-serif;
+        color: #e0e0e0;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        max-width: 400px;
+        margin: auto;
+        animation: fadeIn 0.5s ease-in-out;
+      ">
+        <h3 style="color: #c19a6b; margin-top: 0;">✅ Agendamento confirmado!</h3>
+        <p><strong style="color: #c19a6b;">📍 Serviço:</strong> ${servico}</p>
+        <p><strong style="color: #c19a6b;">📅 Data e horário:</strong> ${dataFormatada}</p>
+        <p><strong style="color: #c19a6b;">📝 Cliente:</strong> ${motivo}</p>
+      </div>
+    `;
+    resultado.appendChild(mensagem);
+    agendarAlerta(horarioAgendado, servico, motivo);
+  });
+
+  // Eventos de cliente e corte
+  btnAdd.addEventListener('click', adicionarUsuario);
+  btnRemover.addEventListener('click', removerUltimoUsuario);
+
+  document.querySelector('#adicionar-corte').addEventListener('click', function () {
+    const nome = document.querySelector('#nome-corte').value;
+    const tipo = document.querySelector('#tipo-corte').value;
+    const preco = document.querySelector('#preco-corte').value;
+    addCorte(nome, tipo, preco);
+  });
+
+  document.querySelector('#remover-corte').addEventListener('click', removerUltimoCorte);
+
+  // Navegação entre seções
+  function renderSeção() {
+    const hash = window.location.hash || "#/";
+    const secoes = {
+      "#/": "pagina-inicial",
+      "#/clientes": "clientes",
+      "#/agendamento": "agendamento",
+      "#/cortes-feitos": "cortes-feitos",
+      "#/caixa": "caixa"
+    };
+
+    document.querySelectorAll(".secao-formulario").forEach(secao => {
+      secao.style.display = "none";
+    });
+
+    const id = secoes[hash];
+    if (id) {
+      document.getElementById(id).style.display = "block";
+    } else {
+      const paginaInicial = document.getElementById("pagina-inicial");
+      paginaInicial.innerHTML = "<h2>❌ Página não encontrada</h2>";
+      paginaInicial.style.display = "block";
+    }
+  }
+
+  window.addEventListener("hashchange", renderSeção);
+  window.addEventListener("DOMContentLoaded", renderSeção);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
